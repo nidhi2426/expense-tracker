@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ledger – personal expense tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js loaded from a CDN, pinned to an exact version so it never changes under you -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <!-- defer = run after the HTML is parsed; scripts keep their order, so Chart.js loads before app.js -->
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <h1>Ledger</h1>
+    <p>Everything you spend, kept in this browser. Nothing leaves your device.</p>
+  </header>
+
+  <main class="sheet">
+    <!-- LEFT: add form + charts -->
+    <section class="side">
+      <!-- Each input has a <label> so screen readers and tap targets work properly -->
+      <form id="form" autocomplete="off">
+        <h2>Add an expense</h2>
+        <label>What was it for? <input id="desc" required maxlength="60" placeholder="Auto to office"></label>
+        <label>Amount (₹) <input id="amount" type="number" min="0.01" step="0.01" required></label>
+        <label>Category <select id="category"></select></label>
+        <label>Date <input id="date" type="date" required></label>
+        <button type="submit">Save expense</button>
+      </form>
+
+      <div class="chart-box">
+        <h2>Where it went</h2>
+        <canvas id="pie" aria-label="Spending by category"></canvas>
+        <p id="pie-empty" class="empty" hidden>Add an expense to see the breakdown.</p>
+      </div>
+      <div class="chart-box">
+        <h2>Last six months</h2>
+        <canvas id="bars" aria-label="Spending per month"></canvas>
+      </div>
+    </section>
+
+    <!-- RIGHT: filters + ruled list -->
+    <section class="book">
+      <div class="filters">
+        <label>Category <select id="f-category"><option value="all">All</option></select></label>
+        <label>Month <input id="f-month" type="month"></label>
+        <button type="button" id="clear" class="plain">Clear filters</button>
+      </div>
+      <p id="summary" class="summary" aria-live="polite"></p>
+      <ul id="list" class="entries"></ul>
+      <p id="empty" class="empty" hidden>No expenses match these filters.</p>
+    </section>
+  </main>
+</body>
+</html>
